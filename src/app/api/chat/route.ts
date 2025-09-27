@@ -11,9 +11,12 @@ export async function POST(req: Request) {
       );
     }
     const result = await groq.chat.completions.create({
-      temperature: 1,
-      response_format: { type: "json_object" },
+      temperature: 0.1,
       messages: [
+        {
+          role : "system",
+          content : 'You are a smart person response the ans in short and ight way'
+        },
         {
           role: "user",
           content: message,

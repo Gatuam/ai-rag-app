@@ -15,7 +15,7 @@ export default function Navbar() {
   const [active, setActive] = useState("home");
 
   return (
-    <div className=" flex items-center justify-between px-4 md:px-1 border-b py-2 shadow-md w-full ">
+    <div className=" flex items-center justify-between px-4 md:px-1 border-b py-2 shadow-md w-full bg-background ">
       <nav className=" md:px-5 py-3 flex !justify-between items-center w-full max-w-7xl mx-auto ">
         <div className=" flex items-center justify-center gap-x-3">
           <Link href={"/"}>
