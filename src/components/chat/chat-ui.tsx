@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Copy, MoreHorizontal } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
+import { toast } from "sonner";
 interface Message {
   id: number;
   text: string;
@@ -37,14 +38,14 @@ export default function ChatUI() {
     });
     if (!res.data) throw new Error("No response stream");
     const data = res.data;
-    let aiText = "";
-    for (const chick of data) {
-      aiText += chick;
-    }
+    const reasoning = res.data.message.reasoning;
+
     setTimeout(() => {
       const aiMessage: Message = {
         id: Date.now() + 1,
-        text: "This is AI response to: " + aiText,
+        text:
+          "This is AI response to: " + data?.message?.content ||
+          "This is AI response to: " + data,
         sender: "ai",
       };
       setMessages((prev) => [...prev, aiMessage]);
@@ -53,7 +54,9 @@ export default function ChatUI() {
   };
 
   const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(()=> {
+      toast('Copy successfully')
+    })
   };
 
   useEffect(() => {
@@ -61,26 +64,23 @@ export default function ChatUI() {
   }, [messages]);
 
   return (
-    <div className="flex flex-col justify-center items-center h-full min-w-md w-full max-w-6xl mx-auto p-2 pt-0 gap-y-3 px-2 md:px-6">
-      <div className=" w-full px-4 bg-accent rounded-md py-2 border">
-        hi todo header
-      </div>
+    <div className="flex flex-col justify-center items-center h-full min-w-md w-full max-w-7xl mx-auto  gap-y-3 px-2 md:px-6 py-2 pt-0">
       <Card className=" relative  flex h-full overflow-y-auto  w-full flex-grow  scrollbar shadow-xl border   ">
         <div className=" absolute -z-0 bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:84px_94px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
         <CardContent className="space-y-3 h-full">
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`flex gap-2 items-start ${
+              className={`flex gap-2 items-start pb-3 ${
                 msg.sender === "user" ? "justify-end" : "justify-start"
               }`}
             >
               <div className=" flex flex-col group ">
                 <div
-                  className={`p-2 px-4 rounded-lg max-w-md break-words py-2 text-sm md:text-md drop-shadow-2xl border border-primary/5 ${
+                  className={`p-2 px-4 rounded-lg  break-words py-2 text-sm md:text-md drop-shadow-2xl  ${
                     msg.sender === "user"
-                      ? "bg-secondary shadow-xl text-accent-foreground"
-                      : "bg-muted text-accent-foreground shadow-xl"
+                      ? "bg-secondary shadow-xl text-accent-foreground max-w-xl"
+                      : "text-accent-foreground max-w-3xl"
                   }`}
                 >
                   {msg.text}

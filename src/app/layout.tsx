@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/provider/theme-provider";
 import Navbar from "@/components/_home/components/nav";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/global/app-sidebar";
+import { Toaster } from "sonner";
+import Nav from "@/components/chat/nav";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -31,15 +33,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SidebarProvider>
-            <AppSidebar />
-            <div className=" w-full h-screen flex flex-col gap-y-3 bg-gradient-to-b from-accent/5 to-chart-2/1">
-              <Navbar />
-              <main className="flex-1 flex-col  h-full w-full mx-auto">
-                {children}
-              </main>
-            </div>
-          </SidebarProvider>
+          {" "}
+        
+          {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

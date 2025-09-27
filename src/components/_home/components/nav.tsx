@@ -1,9 +1,6 @@
 "use client";
 
 import { ModeToggle } from "@/components/global/mode-toggle";
-import { Button } from "@/components/ui/button";
-import { useSidebar } from "@/components/ui/sidebar";
-import { SidebarClose, SidebarOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -15,20 +12,11 @@ const navItems = [
 ];
 
 export default function Navbar() {
-  const { toggleSidebar } = useSidebar();
   const [active, setActive] = useState("home");
 
   return (
     <div className=" flex items-center justify-between px-4 md:px-1 border-b py-2 shadow-md w-full ">
-      <Button
-        className=" size-8"
-        onClick={() => toggleSidebar()}
-        size={"icon"}
-        variant={"ghost"}
-      >
-        <SidebarOpen />
-      </Button>
-      <nav className=" md:px-5 py-3 flex !justify-between items-center w-full max-w-6xl mx-auto ">
+      <nav className=" md:px-5 py-3 flex !justify-between items-center w-full max-w-7xl mx-auto ">
         <div className=" flex items-center justify-center gap-x-3">
           <Link href={"/"}>
             <div className="text-md md:text-2xl font-semibold text-chart-2 flex gap-x-3">

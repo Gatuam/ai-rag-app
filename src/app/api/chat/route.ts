@@ -1,4 +1,4 @@
-import { groq } from "@ai-sdk/groq";
+import { groq } from "@/lib/ai";
 import { streamText } from "ai";
 
 export async function POST(req: Request) {
@@ -10,13 +10,22 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-
-    const result = await streamText({
-      model: groq("llama-3.3-70b-versatile"),
-      prompt: message,
+    const result = await groq.chat.completions.create({
+      temperature: 1,
+      response_format: { type: "json_object" },
+      messages: [
+        {
+          role: "user",
+          content: message,
+        },
+      ],
+      model: "openai/gpt-oss-20b",
     });
 
-    return result.toUIMessageStreamResponse();
+    return Response.json(
+      { success: true, message: result.choices[0].message },
+      { status: 200 }
+    );
   } catch (err: any) {
     return Response.json(
       { success: false, error: err.message ?? "Unknown error" },
