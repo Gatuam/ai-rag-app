@@ -10,8 +10,8 @@ const Nav = () => {
   const isMoble = useIsMobile();
   const { toggleSidebar } = useSidebar();
   return (
-    <div className=" relative w-full px-4 bg-background border-b border-accent-foreground/10 h-13 flex items-center ">
-      <div className=" max-w-7xl mx-auto flex justify-start items-center">
+    <div className=" relative w-full px-4 bg-background border-b-[1px] border-accent-foreground/30 h-13 flex items-center ">
+      <div className=" max-w-7xl w-full mx-auto flex justify-between items-center px-5">
         {isMoble && (
           <Button
             className=" absolute left-1"
@@ -22,8 +22,10 @@ const Nav = () => {
             <SidebarOpen />
           </Button>
         )}
-        <div>hi</div>
-        <ModeToggle />
+        <div className=" flex w-full h-full justify-between items-center ">
+          <div>hi</div>
+          <ModeToggle />
+        </div>
       </div>
     </div>
   );

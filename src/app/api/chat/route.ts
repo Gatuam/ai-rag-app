@@ -1,5 +1,5 @@
 import { groq } from "@/lib/ai";
-import { streamText } from "ai";
+import { webSearch } from "@/lib/webserach";
 
 export async function POST(req: Request) {
   try {
@@ -10,53 +10,75 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+
     const result = await groq.chat.completions.create({
       temperature: 0.1,
       messages: [
         {
           role: "system",
-          content:
-            "You are a smart person response the ans in short and ight way",
+          content: `You are a smart person. Respond short and correct.
+            You can use tools:
+            1. webSearch({query}) // search realtime data`,
         },
-        {
-          role: "user",
-          content: message,
-        },
+        { role: "user", content: message },
       ],
       model: "openai/gpt-oss-20b",
       tools: [
         {
           type: "function",
           function: {
-            name: "get_current_weather",
-            description: "Get the current weather in a given location",
+            name: "webSearch",
+            description: "Search the latest information realtime data",
             parameters: {
               type: "object",
               properties: {
-                location: {
-                  type: "string",
-                  description: "The city and state, e.g. San Francisco, CA",
-                },
-                unit: {
-                  type: "string",
-                  enum: ["celsius", "fahrenheit"],
-                },
+                query: { type: "string", description: "the search query" },
               },
-              required: ["location"],
+              required: ["query"],
             },
           },
         },
       ],
+      tool_choice: "auto",
     });
 
+    const msg = result.choices[0].message;
+    const toolCalls = msg?.tool_calls || [];
+
+    if (toolCalls.length === 0) {
+      return Response.json(
+        { success: true, message: { content: msg?.content ?? "" } },
+        { status: 200 }
+      );
+    }
+
+    for (const tool of toolCalls) {
+      const args = safeParse(tool.function.arguments);
+      if (tool.function.name === "webSearch" && args?.query) {
+        const toolResult = await webSearch({ query: args.query });
+        return Response.json(
+          { success: true, message: { content: toolResult ?? "" } },
+          { status: 200 }
+        );
+      }
+    }
     return Response.json(
-      { success: true, message: result.choices[0].message },
-      { status: 200 }
+      { success: false, error: "No tool executed" },
+      { status: 500 }
     );
   } catch (err: any) {
+    console.error("Chat API error:", err);
     return Response.json(
       { success: false, error: err.message ?? "Unknown error" },
       { status: 500 }
     );
+  }
+}
+
+function safeParse(str: string) {
+  try {
+    return JSON.parse(str);
+  } catch {
+    return null;
   }
 }

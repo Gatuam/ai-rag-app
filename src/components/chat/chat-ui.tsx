@@ -36,16 +36,14 @@ export default function ChatUI() {
       username: "bhai",
       message: userMessage.text,
     });
+    console.log(res);
     if (!res.data) throw new Error("No response stream");
     const data = res.data;
-    const reasoning = res.data.message.reasoning;
-
+    const message = res.data.message;
     setTimeout(() => {
       const aiMessage: Message = {
         id: Date.now() + 1,
-        text:
-          "This is AI response to: " + data?.message?.content ||
-          "This is AI response to: " + data,
+        text: message?.content || "No res",
         sender: "ai",
       };
       setMessages((prev) => [...prev, aiMessage]);
