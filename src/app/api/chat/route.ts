@@ -18,7 +18,10 @@ export async function POST(req: Request) {
           role: "system",
           content: `You are a smart person. Respond short and correct.
             You can use tools:
-            1. webSearch({query}) // search realtime data`,
+            1. webSearch({query}) // search realtime data
+            current date and time is ${new Date().toUTCString()} 
+            
+            `,
         },
         { role: "user", content: message },
       ],

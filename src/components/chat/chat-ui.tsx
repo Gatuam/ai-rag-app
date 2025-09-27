@@ -62,9 +62,8 @@ export default function ChatUI() {
   }, [messages]);
 
   return (
-    <div className="flex flex-col justify-center items-center h-full min-w-md w-full max-w-7xl mx-auto  gap-y-3 px-2 md:px-6 py-2 pt-0">
-      <Card className=" relative  flex h-full overflow-y-auto  w-full flex-grow  scrollbar shadow-xl border   ">
-        <div className=" absolute -z-0 bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:84px_94px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+    <div className="flex flex-col justify-center items-center h-full min-w-md w-full gap-y-3 px-2 md:px-6 py-2 pt-0">
+      <Card className=" relative  flex h-full overflow-y-auto  w-full flex-grow  scrollbar shadow-xl  border-none bg-transparent ">
         <CardContent className="space-y-3 h-full">
           {messages.map((msg) => (
             <div
@@ -110,7 +109,7 @@ export default function ChatUI() {
       </Card>
 
       <div className="flex space-x-2 w-full">
-        <div className=" min-h-30 max-h-30 w-full  mx-auto relative border rounded-xl bg-gradient-to-b from-chart-2/30 to-chart-2/30 p-[0.1px] shadow-xl">
+        <div className=" min-h-30 max-h-30 w-full   mx-auto relative border rounded-xl bg-gradient-to-b from-chart-2/30 to-chart-2/30 p-[0.1px] shadow-xl">
           <Textarea
             className="h-full w-full !bg-background !focus:outline-0 !ring-0 pt-3 resize-none !focus:ring-offset-0 rounded-xl "
             value={input}
