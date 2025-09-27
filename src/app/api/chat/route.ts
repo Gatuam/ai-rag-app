@@ -14,8 +14,9 @@ export async function POST(req: Request) {
       temperature: 0.1,
       messages: [
         {
-          role : "system",
-          content : 'You are a smart person response the ans in short and ight way'
+          role: "system",
+          content:
+            "You are a smart person response the ans in short and ight way",
         },
         {
           role: "user",
@@ -23,6 +24,29 @@ export async function POST(req: Request) {
         },
       ],
       model: "openai/gpt-oss-20b",
+      tools: [
+        {
+          type: "function",
+          function: {
+            name: "get_current_weather",
+            description: "Get the current weather in a given location",
+            parameters: {
+              type: "object",
+              properties: {
+                location: {
+                  type: "string",
+                  description: "The city and state, e.g. San Francisco, CA",
+                },
+                unit: {
+                  type: "string",
+                  enum: ["celsius", "fahrenheit"],
+                },
+              },
+              required: ["location"],
+            },
+          },
+        },
+      ],
     });
 
     return Response.json(

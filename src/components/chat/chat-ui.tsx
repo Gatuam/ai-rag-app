@@ -113,9 +113,6 @@ export default function ChatUI() {
 
       <div className="flex space-x-2 w-full">
         <div className=" min-h-30 max-h-30 w-full  mx-auto relative border rounded-xl bg-gradient-to-b from-chart-2/30 to-chart-2/30 p-[0.1px] shadow-xl">
-          <div className="  absolute top-0 left-4 bg-gradient-to-r from-transparent via-chart-2 to-transparent rounded-lg w-[90%] h-[2px]  blur-xs animate-pulse " />
-
-          <div className=" absolute bottom-0 left-4 bg-gradient-to-r from-transparent via-chart-2 to-transparent rounded-lg w-[90%] h-[2px]  blur-xs animate-pulse " />
           <Textarea
             className="h-full w-full !bg-background !focus:outline-0 !ring-0 pt-3 resize-none !focus:ring-offset-0 rounded-xl "
             value={input}
