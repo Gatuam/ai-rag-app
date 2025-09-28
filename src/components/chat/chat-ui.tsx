@@ -39,7 +39,7 @@ export default function ChatUI() {
     console.log(res);
     if (!res.data) throw new Error("No response stream");
     const data = res.data;
-    const message = res.data.message;
+    const message = data.message;
     setTimeout(() => {
       const aiMessage: Message = {
         id: Date.now() + 1,
@@ -62,7 +62,7 @@ export default function ChatUI() {
   }, [messages]);
 
   return (
-    <div className="flex flex-col justify-center items-center h-full min-w-md w-full gap-y-3 px-2 md:px-6 py-2 pt-0">
+    <div className="flex flex-col justify-center items-center h-full min-w-md w-full gap-y-3 px-2 md:px-6 py-2 pt-0 max-w-5xl mx-auto">
       <Card className=" relative  flex h-full overflow-y-auto  w-full flex-grow  scrollbar shadow-xl  border-none bg-transparent ">
         <CardContent className="space-y-3 h-full">
           {messages.map((msg) => (
@@ -82,15 +82,16 @@ export default function ChatUI() {
                 >
                   {msg.text}
                 </div>
-                <div className="flex w-full justify-end opacity-0 group-hover:opacity-95 ">
+                <div className="flex w-full justify-end opacity-0 group-hover:opacity-95 mt-1 gap-x-1 ">
                   <Button
+                    className="bg-accent h-8"
                     variant="ghost"
                     size="icon"
                     onClick={() => copyToClipboard(msg.text)}
                   >
                     <Copy className="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost" size="icon">
+                  <Button className="bg-accent h-8" variant="ghost" size="icon">
                     <MoreHorizontal className="w-4 h-4" />
                   </Button>
                 </div>
@@ -99,7 +100,7 @@ export default function ChatUI() {
           ))}
           {isLoading && (
             <div className=" pb-4 ">
-              <div className="p-3 rounded-lg max-w-3xs bg-muted text-sm md:text-shadow-md text-accent-foreground animate-pulse ">
+              <div className="p-2 rounded-lg max-w-3xs bg-muted text-sm md:text-shadow-md text-accent-foreground animate-pulse ">
                 AI is typing...
               </div>
             </div>
@@ -108,17 +109,17 @@ export default function ChatUI() {
         </CardContent>
       </Card>
 
-      <div className="flex space-x-2 w-full">
-        <div className=" min-h-30 max-h-30 w-full   mx-auto relative border rounded-xl bg-gradient-to-b from-chart-2/30 to-chart-2/30 p-[0.1px] shadow-xl">
+      <div className="flex space-x-2 w-full max-w-5xl mx-auto px-5 ">
+        <div className=" min-h-30 max-h-30 w-full   mx-auto relative border rounded-xl bg-gradient-to-b from-chart-1/30 to-chart-2/30  shadow-xl ">
           <Textarea
-            className="h-full w-full !bg-background !focus:outline-0 !ring-0 pt-3 resize-none !focus:ring-offset-0 rounded-xl "
+            className="h-full w-full !bg-background !focus:outline-0 !ring-0 pt-3 resize-none !focus:ring-offset-0 rounded-xl !border-0 text-accent-foreground "
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type a message..."
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           />
           <Button
-            className=" absolute right-2 bottom-2 h-9 bg-gradient-to-b from-chart-2 to-chart-2/60 hover:bg-gradient-to-t text-accent-foreground shadow-2xl"
+            className=" absolute right-2 bottom-2 h-9 bg-gradient-to-b from-chart-2 to-chart-2/30 hover:bg-gradient-to-t text-accent-foreground shadow-2xl"
             onClick={sendMessage}
             disabled={isLoading}
           >

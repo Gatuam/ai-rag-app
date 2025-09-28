@@ -22,11 +22,11 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className=" py-2 ">
         <SidebarMenu>
-          <SidebarMenuItem className=" border-b py-2 w-full flex justify-between items-center gap-x-3">
+          <SidebarMenuItem className=" border-b py-2 w-full flex justify-between items-center gap-x-1">
             <SidebarMenuButton
               asChild
               variant={"outline"}
-              className="  group-data-[collapsible=icon]:hidden px-3 py-3 border rounded-sm !border-accent-foreground/5 bg-gradient-to-b from-chart-2/30 to-accent hover:bg-gradient-to-t active:scale-103 flex justify-center items-center "
+              className="  group-data-[collapsible=icon]:hidden px-3 py-3 border rounded-sm !border-accent-foreground/0 bg-accent hover:bg-gradient-to-t active:scale-103 flex justify-center items-center "
             >
               <Link href={"/"}>
                 <Image src={"/code.svg"} alt="logo" width={20} height={20} />
@@ -34,7 +34,7 @@ export function AppSidebar() {
               </Link>
             </SidebarMenuButton>
             <Button
-              className=""
+              className=" size-8"
               onClick={() => toggleSidebar()}
               size={"icon"}
               variant={"ghost"}
@@ -49,19 +49,23 @@ export function AppSidebar() {
         <SidebarGroup />
         <SidebarGroupContent>
           <SidebarMenu>
+            <SidebarMenuButton className=" px-3 py-3 w-full border-b rounded-sm !border-accent-foreground/5">
+              Your previous chat
+            </SidebarMenuButton>
             <SidebarMenuItem className="px-2">
-              <Button
-                variant={"ghost"}
-                className=" px-3 py-3 w-full border-b rounded-sm !border-accent-foreground/5"
-              >
-                Your previous chat
-              </Button>
+              <SidebarMenuButton>
+                <p>hi</p>
+              </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroupContent>
         <SidebarGroup />
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <SidebarContent className="  group-data-[collapsible=icon]:hidden border p-2 rounded-sm bg-accent">
+          Hi
+        </SidebarContent>
+      </SidebarFooter>
     </Sidebar>
   );
 }

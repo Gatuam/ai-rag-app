@@ -1,49 +1,55 @@
 import { groq } from "@/lib/ai";
 import { webSearch } from "@/lib/webserach";
+import NodeCache from "node-cache";
 
 export async function POST(req: Request) {
+  const chatCache = new NodeCache({ stdTTL: 60 * 60 * 10 });
+
   try {
-    const { message } = await req.json();
-    if (!message) {
+    const { message, id } = await req.json();
+    if (!message || !id) {
       return Response.json(
-        { success: false, message: "Message is required" },
+        { success: false, message: "Message and id are required" },
         { status: 400 }
       );
     }
 
-    const result = await groq.chat.completions.create({
-      temperature: 0.1,
-      messages: [
-        {
-          role: "system",
-          content: `You are a smart person. Respond short and correct.
+    const result = await groq.chat.completions.create(
+      {
+        temperature: 0.1,
+        messages: [
+          {
+            role: "system",
+            content: `You are a smart person. Respond short and correct.
             You can use tools:
             1. webSearch({query}) // search realtime data
             current date and time is ${new Date().toUTCString()} 
             
             `,
-        },
-        { role: "user", content: message },
-      ],
-      model: "openai/gpt-oss-20b",
-      tools: [
-        {
-          type: "function",
-          function: {
-            name: "webSearch",
-            description: "Search the latest information realtime data",
-            parameters: {
-              type: "object",
-              properties: {
-                query: { type: "string", description: "the search query" },
+          },
+          { role: "user", content: message },
+        ],
+        model: "openai/gpt-oss-20b",
+        tools: [
+          {
+            type: "function",
+            function: {
+              name: "webSearch",
+              description: "Search the latest information realtime data",
+              parameters: {
+                type: "object",
+                properties: {
+                  query: { type: "string", description: "the search query" },
+                },
+                required: ["query"],
               },
-              required: ["query"],
             },
           },
-        },
-      ],
-      tool_choice: "auto",
-    });
+        ],
+        tool_choice: "auto",
+      },
+      id
+    );
 
     const msg = result.choices[0].message;
     const toolCalls = msg?.tool_calls || [];
