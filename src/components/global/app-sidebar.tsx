@@ -49,11 +49,11 @@ export function AppSidebar() {
         <SidebarGroup />
         <SidebarGroupContent>
           <SidebarMenu>
-            <SidebarMenuButton className=" px-3 py-3 w-full border-b rounded-sm !border-accent-foreground/5">
+            <SidebarMenuButton className=" px-3 py-3 w-full border-b rounded-sm !border-accent-foreground/5 bg-none pointer-events-none">
               Your previous chat
             </SidebarMenuButton>
             <SidebarMenuItem className="px-2">
-              <SidebarMenuButton>
+              <SidebarMenuButton className=" border border-accent hover:border bg-accent-foreground/5 shadow-2xs hover:border-accent-foreground/10">
                 <p>hi</p>
               </SidebarMenuButton>
             </SidebarMenuItem>

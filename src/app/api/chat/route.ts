@@ -6,8 +6,8 @@ export async function POST(req: Request) {
   const chatCache = new NodeCache({ stdTTL: 60 * 60 * 10 });
 
   try {
-    const { message, id } = await req.json();
-    if (!message || !id) {
+    const { message } = await req.json();
+    if (!message ) {
       return Response.json(
         { success: false, message: "Message and id are required" },
         { status: 400 }
@@ -48,7 +48,6 @@ export async function POST(req: Request) {
         ],
         tool_choice: "auto",
       },
-      id
     );
 
     const msg = result.choices[0].message;

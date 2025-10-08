@@ -18,8 +18,8 @@ const Nav = () => {
   const isMoble = useIsMobile();
   const { toggleSidebar } = useSidebar();
   return (
-    <div className=" relative w-full px-4 bg-background border-b-[1px] border-accent-foreground/10 h-15 flex items-center ">
-      <div className=" max-w-5xl w-full mx-auto flex justify-between items-center px-5">
+    <div className=" relative w-full px-8 bg-background  h-15 flex items-center ">
+      <div className=" max-w-5xl w-full mx-auto flex justify-between items-center px-5 border-b-[1px] border-accent-foreground/10 py-2">
         {isMoble && (
           <Button
             className=" absolute left-1"

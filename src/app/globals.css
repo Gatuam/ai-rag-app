@@ -157,3 +157,12 @@ button {
 .scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Edge */
 }
+
+.scrollbars { 
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
+
+.scrollbars::-webkit-scrollbar {
+  display: none; 
+}
