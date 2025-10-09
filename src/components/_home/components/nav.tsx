@@ -1,8 +1,11 @@
 "use client";
 
 import { ModeToggle } from "@/components/global/mode-toggle";
+import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const navItems = [
@@ -12,16 +15,21 @@ const navItems = [
 ];
 
 export default function Navbar() {
+  const router = useRouter();
+  const handleSignOut = async () => {
+    await authClient.signOut();
+  };
+  const { data: session } = authClient.useSession();
   const [active, setActive] = useState("home");
 
   return (
     <div className=" flex items-center justify-between px-4 md:px-1 border-b py-2 shadow-md w-full bg-background ">
       <nav className=" md:px-5 py-3 flex !justify-between items-center w-full max-w-7xl mx-auto ">
         <div className=" flex items-center justify-center gap-x-3">
-          <Link href={"/"}>
-            <div className="text-md md:text-2xl font-semibold text-chart-2 flex gap-x-3">
-              Helix-AI
-              <Image src={"/code.svg"} alt="logo" width={30} height={30} />
+          <Link href={"/"} className=" flex justify-center items-center gap-2">
+            <div className="text-md md:text-2xl font-semibold flex gap-x-3">
+              <Image src={"/code.svg"} alt="logo" width={20} height={30} />
+              <p className=" text-xl">Helix-AI</p>
             </div>
           </Link>
         </div>
@@ -45,6 +53,26 @@ export default function Navbar() {
             ))}
           </ul>
           <ModeToggle />
+          {!!session?.user && (
+            <Button
+              onClick={() => handleSignOut()}
+              variant={"secondary"}
+              className=" h-8"
+            >
+              Sign-out
+            </Button>
+          )}
+          {!session?.user && (
+            <Button
+              onClick={() => {
+                router.push("/auth/sign-in");
+              }}
+              variant={"secondary"}
+              className=" h-8"
+            >
+              Sign-In
+            </Button>
+          )}
         </div>
       </nav>
     </div>
